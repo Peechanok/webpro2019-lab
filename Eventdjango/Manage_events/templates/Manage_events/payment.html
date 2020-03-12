@@ -1,0 +1,102 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+    <div class="row" >
+        <div class="col-sm-6" style="background-color:pink;">
+            <div class="container">
+                <title>Payment</title>
+                <h1>Payment</h1>
+
+                <br/> {% if user.id %}
+                <form method="POST" action="{% url 'event_tickets_perchase' event_id=event.id %}">
+
+                    {% else %}
+                    <form method="POST" action="{% url 'sign_in_anonymous'   %}">
+                        <form method="POST" action="{% url 'event_tickets_perchase' event_id=event.id  %}">
+                            {% endif %} {% csrf_token %} {% if msge %}
+                            <p class="text-success">{{msge}}</p>{% endif %}
+                            <div class="form-row">
+
+                             
+                                
+                                <div class="form-group col-6">
+                                    <label for="section">ชื่อจริง:</label>
+                                    <input type="text" class="form-control" name="first_name" id="first_name" value="{{user.first_name}}" required>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="section">นามสกุล:</label>
+                                    <input type="text" class="form-control" name="last_name" id="last_name" value="{{user.last_name}}" required>
+                                </div>
+
+                                <div class="form-group col-6">
+                                    <label for="section">email:</label>
+                                    <input type="text" class="form-control" name="email" id="email" value="{{user.email}}" required>
+                                </div>
+
+
+                                {% if user.id %} {% else %}
+                                <div class="form-group col-6">
+                                    <label for="section">username:</label>
+                                    <input type="text" class="form-control" name="username" id="username" value="{{user.username}}" required>
+                                </div>
+
+                                <div class="form-group col-6">
+                                    <label for="section">Password:</label>
+                                    <input type="text" class="form-control" name="password" id="password" value="{{user.password}}" required>
+                                </div>{% endif %}
+                            </div>
+                           <br><br>
+                                
+                             
+
+                      
+            </div>
+        </div>
+        <div class="col-sm-6 bg-warning">
+<div class="col-sm-3 bg-warning">
+</div>
+<div class="col-sm-9 bg-warning">
+
+            <h4>Oder Sumary-#ticket_id</h4>
+            <table class="table">
+    
+    <tbody>
+            <tr>
+                <td>Date</td>
+                <td>{%now 'd-M-Y' %}</td>
+            </tr>
+            <tr>
+                <td><b>Item</b></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>{% for item in category %}{{item.name}}{% endfor %}</td>
+                <td><b>{{user_tamount}} tickets</b></td>
+
+            </tr>
+            <tr>
+                <td><b>Total</b></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>{{event.ticket_price}}x {{user_tamount}}</td>
+                <td>{{price_amount}}</td>
+            </tr>
+            </tbody>
+            </table></div>
+              
+                            <button type="submit" class="btn btn-primary ml-3" id="{{event.id}}">Credit/debit</button>
+                            <button type="submit" class="btn btn-primary ml-3" id="{{event.id}}">Paypal</button>
+                            <button type="submit" class="btn btn-primary ml-3" id="{{event.id}}">Promtpay</button>
+                        </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+{% endblock %}

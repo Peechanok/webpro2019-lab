@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!--h1> ชื่องาน รายละเอียด วันจัดงาน เวลาจัดงาน สถานที่ ราคา จำนวนตั๋วทั้งหมด สถานะ popular-->
+
+   <div class="container">
+        <h1>Create New Event</h1>
+  <form method="POST" action="{% url 'event_tickets_add_event' %}">
+        {% csrf_token %}
+            {% if msg %}<p class="text-success">{{msg}}</p>{% endif %}      <!-- Submit to event_add view -->
+       
+            <div class="form-row">
+                <div class="form-group col-4">
+                    <label for="section">event name</label>
+               
+                    <input type="text" class="form-control" name="event_name" id="event_name" value="{{Event.event_name}}" required>
+                </div>
+                <div class="form-group col-6">
+                    <label for="section">Details:</label>
+                    <textarea row ="3" class="form-control" name="description" id="description" value="{{Event.description}}" required>
+                </textarea></div>
+             </div>
+                <div class="form-row">
+                <div class="form-group col-4">
+                    <label for="section">Event-date:</label>
+                    <input type="date" class="form-control" name="event_date" id="event_date" value="{{Event.event_date}}" required>
+                </div>
+                <div class="form-group col-4">
+                    <label for="section">Time:</label>
+                    <input type="time" class="form-control" name="event_time" id="event_time" value="{{Event.event_time}}" required>
+                </div>
+                <div class="form-group col-6">
+                    <label for="section">Place:</label>
+                    <input type="text" class="form-control" name="location" id="location" value="{{Event.location}}" required>
+                </div>
+                <div class="form-group col-4">
+                    <label for="section">Price:</label>
+                    <input type="number" class="form-control" name="ticket_price" id="ticket_price" value="{{Event.ticket_price}}" required>
+                </div>
+                <div class="form-group col-4">
+                    <label for="section">Amount Tickets:</label>
+                    <input type="number" class="form-control" name="ticket_amount" id="ticket_amount" value="{{Event.ticket_amount}}" required>
+                </div>
+                
+<div class="form-group col-4">
+                    <label for="section">Popular</label>
+                    <select class="form-control" id="is_popular" name="is_popular" required>
+                        <option value=''>---เลือก---</option>
+                        
+                        {% for is_popular in is_populars %}
+                        <option value='{{is_popular.0}}' {% if Event.is_popular == is_popular.0 %}selected{% endif %}>
+                            {{is_popular.1}}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group col-4">
+                    <label for="section">Category</label>
+                    <select class="form-control" id="category_id" name="category_id" required>
+                        <option value=''>---เลือก---</option>
+                        
+                        {% for category in categorys %}
+                        <option value='{{category.id}}' {% if Event.category.id == category.id %}selected{% endif %}>
+                            {{category.name}}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+        <div class="custom-file">
+  <input type="file" class="custom-file-input" id="customFile" name="picture" value="{{Event.picture}}" required>
+  <label class="custom-file-label" for="customFile">Choose picture</label>
+</div>
+            </div>
+            <button type="reset" class="btn btn-warning ml-3">Reset Form</button>
+            <button type="submit" class="btn btn-primary ml-3">Submit</button>
+        </form>
+    </div>
+{% endblock  %}
+ 

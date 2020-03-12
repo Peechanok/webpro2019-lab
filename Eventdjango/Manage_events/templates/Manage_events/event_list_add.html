@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="container">
+        
+        <br/><br/>
+        <form class="form-inline" method="GET" action="{% url 'eventlist' %}">
+ <div class="form-group">
+                <label for="search">search event:</label>
+                <input type="text" class="form-control ml-3" id="search" 
+                    name="search" placeholder="Search" value="{{search}}">
+            </div>
+             <button type="submit" class="btn btn-primary ml-3">Submit</button>
+            <a href="{% url 'event_tickets_add_event' %}"><button type="button" class="btn btn-secondary ml-3">Create New Event</button></a>
+        </form>
+        <br/><br/>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">รูป </th>
+                    <th scope="col">ชื่องาน </th>
+                    <th scope="col">รายละเอียด {{ all_objects }}</th>
+                    <th scope="col">สถานที่</th>
+                    <th scope="col">เวลาจัดงาน</th>
+                    <th scope="col">วันจัดงาน</th>
+                    <th scope="col">ราคา</th>
+                    <th scope="col">จำนวนตั๋วทั้งหมด</th>
+                    <th scope="col">popular right now</th>
+                    <th scope="col">ลบ</th>
+                </tr>
+            </thead>
+            <tbody>
+               {% for item in query_results %}
+                <tr>
+                    <!--<td>{{ cl.Ev }}</td>-->
+                   <td><img src="{{ item.picture.url }}" width="100" /></td>
+                    <td>{{ item.event_name }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.location }}</td>
+                    <td> {{ item.event_time }}</td>
+                    <td>{{ item.event_date }} </td>
+                    
+                    <td>{{ item.ticket_price }}</td>
+                    <td>{{ item.ticket_amount }}</td>
+                    
+                    <td>{{ item.is_popular }}</td>
+                    <td> <a href="{% url 'event_delete' event_id=item.id %}">
+                            <div class="btn btn-warning" id="{{item.id}}">ลบ</div>
+                  
+                        </a>
+                        
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock  %}

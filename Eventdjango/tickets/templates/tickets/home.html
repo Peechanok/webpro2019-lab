@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %} 
+
+<div class="container">
+<form class="form-inline" method="GET" action="{% url 'tickets_home' %}">
+<div class="container">
+
+<h1>Poppular now</h1>
+  
+    <table class="table">
+    <tbody>
+
+    {% for item in query_results %}
+   {%if date.now > item.event_date  %}
+
+  {% else %}
+    
+{% if item.is_popular == "Yes"  %}
+
+    <td> <img class="connect-image-home" src="{{item.picture.url}}" alt="img"  width="200px"><br>{{ item.event_date }}<br>
+    {{ item.event_name }}<br>{{ item.location }} <br />   <a href="{% url 'event_tickets_details' event_id=item.id %}">
+                            <div class="btn btn-warning" id="{{item.id}}">View detail</div>
+                        </a></td>
+    {% endif %}{% endif %}
+     {% endfor %}
+     </tbody>
+    </table>
+    
+    
+    
+   
+</div>
+<div class="container">
+     
+ <h1>Category</h1>
+      
+      
+    <table class="table">
+    
+    <tbody>
+    {% for items in query_results_category %}
+   <td><br>
+    {{ items.name }} <br />  
+     <a href="{% url 'event_category_details' category_id=items.id %}">
+         <div class="btn btn-warning" id="{{items.id}}">View detail</div>
+                        </a></td>{% endfor %}</tbody></table>
+   </div>   
+     
+
+</div>
+{% endblock  %}
+ 
+

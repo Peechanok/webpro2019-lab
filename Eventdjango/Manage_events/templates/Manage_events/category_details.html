@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<h1>แสดงงาน รายละเอียดงาน
+แสดงราคาบัตร 1กิจกรรมมีบัตรประเภทเดียว ราคาเดียว
+เลือกจำนวนบัตรที่ต้องการซื้อได้
+ภ4บัตรหมดเปลี่ยนสีอักษรบัตรเป็นสีเทา บอกว่า  Sold out
+</h1>
+{% csrf_token %}
+<h1>Name : {{ category.name }}</h1>
+ <table class="table">
+    
+    <tbody>
+    {% for items in event %}
+    {% if items.category_id == category.id%}
+   <td><img src="{% static '{{item.picture}}' %}"/><br>
+    {{ items.event_date }} <br> {{ items.event_name }}<br>
+    {{ items.location }}<br>
+    <br /> <a href="{% url 'event_tickets_details' event_id=items.id %}">
+                            <div class="btn btn-warning" id="{{items.id}}">View detail</div>
+                        </a>  
+    </td>{% endif %}{% endfor %}</tbody></table>
+      
+       
+            
+
+{% endblock  %}
+ 
